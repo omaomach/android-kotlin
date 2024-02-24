@@ -16,17 +16,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         //binding object
-        binding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         viewModel = ViewModelProvider(this).get(MainActivityViewModel::class.java)
 
 
 
         binding.apply {
+            lifecycleOwner = this@MainActivity
             myViewModel = viewModel
-            viewModel.counter.observe(this@MainActivity, Observer {
-                textView.text = it.toString()
-            })
         }
 
     }
