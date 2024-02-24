@@ -2,6 +2,7 @@ package com.example.livedata
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // view model factory
-        viewModelFactory = MainActivityViewModelFactory(99)
+        viewModelFactory = MainActivityViewModelFactory(0)
 
         //connect view model to view model factory
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)
@@ -31,8 +32,20 @@ class MainActivity : AppCompatActivity() {
             binding.tvCounter.text = it.toString()
         })
 
-        binding.addBtn.setOnClickListener() {
-            viewModel.sumUp(binding.editText.text.toString().toInt())
+//        binding.addBtn.setOnClickListener() {
+//            viewModel.sumUp(binding.editText.text.toString().toInt())
+//        }
+
+        binding.apply {
+            addBtn.setOnClickListener() {
+                if (editText.text?.isNotEmpty() == true) {
+                    viewModel.sumUp(editText.text.toString().toInt())
+                }else {
+                    Toast.makeText(this@MainActivity,
+                        "Please Enter Number", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
         }
 
     }
