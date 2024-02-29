@@ -12,9 +12,9 @@ import com.example.livedata.viewmodelfactory.MainActivityViewModelFactory
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var binding : ActivityMainBinding
-    lateinit var viewModel : MainActivityViewModel
-    lateinit var viewModelFactory: MainActivityViewModelFactory
+    private lateinit var binding : ActivityMainBinding
+    private lateinit var viewModel : MainActivityViewModel
+    private lateinit var viewModelFactory: MainActivityViewModelFactory
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // view model factory
-        viewModelFactory = MainActivityViewModelFactory(0)
+        viewModelFactory = MainActivityViewModelFactory(100)
 
         //connect view model to view model factory
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainActivityViewModel::class.java)

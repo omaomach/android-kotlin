@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // View Model Factory
-        factory = MainActivityViewModelFactory(10)
+        factory = MainActivityViewModelFactory()
 
         // View Model
         viewModel = ViewModelProvider(this, factory).get(MainActivityViewModel::class.java)
