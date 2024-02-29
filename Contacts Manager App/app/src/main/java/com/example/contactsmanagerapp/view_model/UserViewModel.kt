@@ -1,4 +1,4 @@
-package com.example.contactsmanagerapp.ViewModel
+package com.example.contactsmanagerapp.view_model
 
 import androidx.databinding.Bindable
 import androidx.databinding.Observable
@@ -31,18 +31,30 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
     }
 
     fun saveOrUpdate() {
-        val name = inputName.value!! // the !! are called not null assertion operator, it will prevent insertion of null values in the database
-        val email = inputEmail.value!!
 
-        insert(User(0, name, email))
+        if (isUpdateOrDelete) {
+            // Make update
+            userToUpdateOrDelete.name = inputName.value!!
+            userToUpdateOrDelete.email = inputEmail.value!!
+            update(userToUpdateOrDelete)
+        }else {
+            // insert functionality
+            val name = inputName.value!! // the !! are called not null assertion operator, it will prevent insertion of null values in the database
+            val email = inputEmail.value!!
 
-        inputName.value = null
-        inputEmail.value = null
+            insert(User(0, name, email))
 
+            inputName.value = null
+            inputEmail.value = null
+        }
     }
 
     fun clearAllOrDelete() {
-        clearAll()
+        if (isUpdateOrDelete) {
+            delete(userToUpdateOrDelete)
+        }else {
+            clearAll()
+        }
     }
 
     fun insert(user: User) = viewModelScope.launch {
@@ -55,10 +67,27 @@ class UserViewModel(private val repository: UserRepository) : ViewModel(), Obser
 
     fun update(user: User) = viewModelScope.launch {
         repository.update(user)
+
+        // Resetting the button and fields
+        inputName.value = null
+        inputEmail.value = null
+        isUpdateOrDelete = false
+        saveOrUpdateButtonText.value = "Save"
+        clearAllOrDeleteButtonText.value = "Clear All"
+
     }
 
     fun delete(user: User) = viewModelScope.launch {
         repository.delete(user)
+    }
+
+    fun initUpdateAndDelete(selectedUser: User) {
+        inputName.value = selectedUser.name
+        inputEmail.value = selectedUser.email
+        isUpdateOrDelete = true
+        userToUpdateOrDelete = selectedUser
+        saveOrUpdateButtonText.value =  "Update"
+        clearAllOrDeleteButtonText.value = "Delete"
     }
 
     override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
