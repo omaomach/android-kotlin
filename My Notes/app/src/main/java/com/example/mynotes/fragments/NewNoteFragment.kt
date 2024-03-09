@@ -8,13 +8,11 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.mynotes.MainActivity
 import com.example.mynotes.R
 import com.example.mynotes.adapter.NoteAdapter
-import com.example.mynotes.databinding.FragmentHomeBinding
 import com.example.mynotes.databinding.FragmentNewNoteBinding
 import com.example.mynotes.model.Note
 import com.example.mynotes.viewmodel.NoteViewModel
@@ -24,7 +22,6 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     private var _binding : FragmentNewNoteBinding? = null
     private val binding get() = _binding!!
     private lateinit var notesViewModel: NoteViewModel
-    private lateinit var noteAdapter: NoteAdapter
 
     private lateinit var mView: View
 
@@ -50,7 +47,7 @@ class NewNoteFragment : Fragment(R.layout.fragment_new_note) {
     }
 
     private fun saveNote(view: View) {
-        val noteTitle = binding.etNoteTitle.text.toString()
+        val noteTitle = binding.etNoteTitle.text.toString().trim()
         val noteBody = binding.etNoteBody.text.toString().trim()
 
         if (noteTitle.isNotEmpty()) {
