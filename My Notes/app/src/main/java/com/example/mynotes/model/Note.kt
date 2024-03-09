@@ -8,7 +8,7 @@ import kotlinx.parcelize.Parcelize
 @Entity(tableName = "notes")
 @Parcelize  // this annotation wil tell android, android studio and kotlin compiler to generate a writeToParcel() and describeContents() as well as create a factory class automatically
 data class Note(
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val id : Int,
     val noteTitle : String,
     val noteBody : String
