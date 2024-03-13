@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.example.coroutinesapp.databinding.ActivityMainBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,12 +24,14 @@ class MainActivity : AppCompatActivity() {
             }
 
             downloadBtn.setOnClickListener {
-                downloadBigFileFromNet()
+
+                // Using Coroutines - allows working on multiple threads instead of just using the Main Thread. It allows different operations to work concurrently
+                CoroutineScope(Dispatchers.IO).launch {
+                    downloadBigFileFromNet()
+                }
             }
 
         }
-
-
 
     }
 
